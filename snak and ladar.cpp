@@ -13,30 +13,54 @@ class snak_and_ladar{
     public:
         vector<player> players;
         vector<box> boxes;
-    snak_and_ladar()
+   
+        snak_and_ladar();
+      /*  void set_box_count(int x);
+        void set_snak_count(int x );
+        void set_ladar_count(int x);
+        void set_player_count(int x);*/
+        void create_grid();
+        void _set_snak(int start, int end);
+        void _set_lader(int start,int end);
+        void get_details();
+        void create_players(int num);
+        void print_the_grid();
+        void print_the_grid_fully();
+        void start_your_game();
+        int is_any_one_won();
+        void print_player_pos();
+        void main_game_fun();
+
+
+
+
+};
+
+ snak_and_ladar::snak_and_ladar()
     {
         box_count = 100;
         snak_count =5;
         ladar_count = 5;
         players_count =2;
     }
-    void set_box_count(int x)
+  /*  void snak_and_ladar:: set_box_count(int x)
     {
         box_count = x;
     }
-    void set_snak_count(int x )
+    void  snak_and_ladar::set_snak_count(int x )
     {
         snak_count = x;
     }
-    void set_ladar_count(int x)
+    void snak_and_ladar:: set_ladar_count(int x)
     {
         ladar_count = x;
     }
-    void set_player_count(int x)
+    void  snak_and_ladar::set_player_count(int x)
     {
         players_count = x;
     }
-    void create_grid()
+    */
+    void snak_and_ladar:: create_grid()
     {
 
         int num = 100;
@@ -48,15 +72,18 @@ class snak_and_ladar{
 
 
     }
-    void _set_snak(int start, int end)
+    void snak_and_ladar:: _set_snak(int start, int end)
     {
-        boxes[start].set_snak(end);
+        boxes[start+1].set_snak(end);
+        boxes[end].set_snake_end();
+
     }
-    void _set_lader(int start,int end)
+    void  snak_and_ladar::_set_lader(int start,int end)
     {
-        boxes[start].set_ladar(end);
+        boxes[start+1].set_ladar(end);
+        boxes[end].set_lader_end();
     }
-    void get_details()
+    void  snak_and_ladar::get_details()
     {
         cout<<"enter_num_of_boxes     ";
         cin>>box_count;
@@ -99,7 +126,7 @@ class snak_and_ladar{
         }
         }
 
-        void create_players(int num)
+        void  snak_and_ladar::create_players(int num)
         {
             for(int i=0;i<num;i++)
             {
@@ -113,10 +140,10 @@ class snak_and_ladar{
             }
            // players.push_back()
         }
-        void print_the_grid()
+        void  snak_and_ladar::print_the_grid()
         {
             cout<<endl<<endl<<endl;
-            for(int i=0;i<box_count;i++)
+            for(int i=1;i<box_count;i++)
             {
                 cout<<"box num : "<<i+1;
                 if(boxes[i].snak())
@@ -127,7 +154,34 @@ class snak_and_ladar{
                  cout<<" **************************nothing************************"<<endl;
             }
         }
-       int  is_any_one_won()
+        void snak_and_ladar:: print_the_grid_fully()
+        {
+            cout<<endl<<endl<<endl;
+            for(int i=box_count;i>=1;i--)
+            {
+               // cout<<"box num : "<<i+1;
+                if(boxes[i].snak() || boxes[i].get_snake_end()) 
+                {
+                    // cout<<"  here there is a snak to : "<<boxes[i].snak_pos()<<endl;
+                    cout<<" S ";
+                }
+                
+                 else if(boxes[i].ladar() || boxes[i].get_lader_end())
+                {
+                    //cout<<"here there is a lader to : "<<boxes[i].lader_pos()<<endl;
+                    cout<<" L ";
+                } 
+                 else
+                 {
+                    printf("%3d",i);
+                    //cout<<" **************************nothing************************"<<endl;
+                 }
+                 if(i%10==0)
+                 cout<<endl;
+                 
+            }
+        }
+       int  snak_and_ladar:: is_any_one_won()
         {
             for(int i=0;i<players_count;i++)
             {
@@ -146,7 +200,7 @@ class snak_and_ladar{
                   return 0;
             }
         }
-       void print_player_pos()
+       void snak_and_ladar:: print_player_pos()
         {
             cout<<endl;
              for(int i=0;i<players_count;i++)
@@ -155,9 +209,10 @@ class snak_and_ladar{
             }
         }
 
-        void main_game_fun()
+        void snak_and_ladar:: main_game_fun()
         {
             cout<<"************  lets start the game  **************"<<endl;
+            print_the_grid_fully();
             while(! is_any_one_won())
             {
                      print_player_pos();
@@ -195,17 +250,13 @@ class snak_and_ladar{
 
 
 
-    void start_your_game()
+    void snak_and_ladar:: start_your_game()
     {
         get_details();
         create_players(players_count);
         main_game_fun();
 
     }
-
-};
-
-
 
 int main()
 {
